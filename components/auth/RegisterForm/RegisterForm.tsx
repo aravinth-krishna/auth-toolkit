@@ -83,6 +83,7 @@ export const RegisterForm = () => {
             <p>{form.formState.errors.password.message}</p>
           )}
         </div>
+
         {error ? (
           <p>
             <BsExclamationTriangle /> {error}
