@@ -8,6 +8,9 @@ import { prisma } from "@/lib/prisma";
 import { RegisterSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
+
 const SALT_ROUNDS = 10;
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
@@ -35,5 +38,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     },
   });
 
-  return { success: "Email sent" };
+  const verificationToken = await generateVerificationToken(email);
+
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+
+  return { success: "Verification Email sent" };
 };

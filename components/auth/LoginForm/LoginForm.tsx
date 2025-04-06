@@ -10,8 +10,15 @@ import { LoginSchema } from "@/schemas";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
 import { login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with a different provider"
+      : "";
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -30,8 +37,8 @@ export const LoginForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        setSuccess(data?.success);
       });
     });
   };
@@ -68,9 +75,9 @@ export const LoginForm = () => {
             <p>{form.formState.errors.password.message}</p>
           )}
         </div>
-        {error ? (
+        {error || urlError ? (
           <p>
-            <BsExclamationTriangle /> {error}
+            <BsExclamationTriangle /> {error || urlError}
           </p>
         ) : (
           ""
