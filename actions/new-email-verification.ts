@@ -4,7 +4,7 @@ import { getUserByEmail } from "@/data/user";
 import { getVerificationTokenByToken } from "@/data/verification-token";
 import { prisma } from "@/lib/prisma";
 
-export const newVerification = async (token: string) => {
+export const newEmailVerification = async (token: string) => {
   const exisitingToken = await getVerificationTokenByToken(token);
 
   if (!exisitingToken) {

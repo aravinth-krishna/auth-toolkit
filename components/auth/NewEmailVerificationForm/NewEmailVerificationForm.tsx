@@ -4,10 +4,10 @@ import { BeatLoader } from "react-spinners";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { newVerification } from "@/actions/new-verification";
+import { newEmailVerification } from "@/actions/new-email-verification";
 import { BsExclamationTriangle, BsCheckCircle } from "react-icons/bs";
 
-const NewVerificationForm = () => {
+export const NewEmailVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
@@ -19,7 +19,7 @@ const NewVerificationForm = () => {
       setError("Missing Token");
       return;
     }
-    newVerification(token)
+    newEmailVerification(token)
       .then((data) => {
         setError(data.error);
         setSuccess(data.success);
@@ -51,9 +51,9 @@ const NewVerificationForm = () => {
       ) : (
         ""
       )}
-      <Link href={"/login"}>Back to Login</Link>
+      <button>
+        <Link href={"/login"}>Back to Login</Link>
+      </button>
     </div>
   );
 };
-
-export default NewVerificationForm;

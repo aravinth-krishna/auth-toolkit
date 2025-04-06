@@ -1,42 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { Social } from "@/components/auth/Social/Social";
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
-import { login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
+import { newPassword } from "@/actions/new-password";
 
-export const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already in use with a different provider"
-      : "";
-
+export const NewPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const handleSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
+      newPassword(values, token).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
@@ -45,25 +40,11 @@ export const LoginForm = () => {
 
   return (
     <div>
-      <h2>Welcome Back!</h2>
+      <h2>Enter a new password</h2>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            disabled={isPending}
-            type="email"
-            placeholder="johndoe@example.com"
-            {...form.register("email")}
-          />
-          {form.formState.errors.email && (
-            <p>{form.formState.errors.email.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Enter new password</label>
           <input
             id="password"
             disabled={isPending}
@@ -75,9 +56,10 @@ export const LoginForm = () => {
             <p>{form.formState.errors.password.message}</p>
           )}
         </div>
-        {error || urlError ? (
+
+        {error ? (
           <p>
-            <BsExclamationTriangle /> {error || urlError}
+            <BsExclamationTriangle /> {error}
           </p>
         ) : (
           ""
@@ -89,19 +71,15 @@ export const LoginForm = () => {
         ) : (
           ""
         )}
-        <button>
-          <Link href={"/reset-password"}>Forgot password?</Link>
-        </button>
 
         <button disabled={isPending} type="submit">
-          Login
+          Change password
         </button>
       </form>
 
-      <Social />
-      <span>
-        Don&apos;t have an Account? <Link href={"/register"}>Sign Up</Link>
-      </span>
+      <button>
+        <Link href={"/login"}>Back to Login</Link>
+      </button>
     </div>
   );
 };
