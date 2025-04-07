@@ -2,7 +2,7 @@
  * An array of routes that are accessible to the public.
  * These routes do not require authentication.
  */
-export const publicRoutes = ["/", "/new-verification"];
+export const publicRoutes = ["/", "/new-email-verification"];
 
 /**
  * An array of routes that are used for authentication.

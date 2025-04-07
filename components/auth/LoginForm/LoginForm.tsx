@@ -19,6 +19,7 @@ export const LoginForm = () => {
       ? "Email already in use with a different provider"
       : "";
 
+  const [showTwoFactorAuth, setShowTwoFactorAuth] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -36,10 +37,25 @@ export const LoginForm = () => {
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
-        setError(data?.error);
-        setSuccess(data?.success);
-      });
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactorAuth) {
+            setShowTwoFactorAuth(true);
+          }
+        })
+        .catch(() => {
+          setError("Something went wrong");
+        });
     });
   };
 
@@ -48,33 +64,53 @@ export const LoginForm = () => {
       <h2>Welcome Back!</h2>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            disabled={isPending}
-            type="email"
-            placeholder="johndoe@example.com"
-            {...form.register("email")}
-          />
-          {form.formState.errors.email && (
-            <p>{form.formState.errors.email.message}</p>
-          )}
-        </div>
+        {showTwoFactorAuth && (
+          <div>
+            <label htmlFor="two_factor_code">2FA Code</label>
+            <input
+              id="two_factor_code"
+              disabled={isPending}
+              type="text"
+              placeholder="123456"
+              {...form.register("two_factor_code")}
+            />
+            {form.formState.errors.two_factor_code && (
+              <p>{form.formState.errors.two_factor_code.message}</p>
+            )}
+          </div>
+        )}
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            disabled={isPending}
-            type="password"
-            placeholder="******"
-            {...form.register("password")}
-          />
-          {form.formState.errors.password && (
-            <p>{form.formState.errors.password.message}</p>
-          )}
-        </div>
+        {!showTwoFactorAuth && (
+          <>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                disabled={isPending}
+                type="email"
+                placeholder="johndoe@example.com"
+                {...form.register("email")}
+              />
+              {form.formState.errors.email && (
+                <p>{form.formState.errors.email.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                disabled={isPending}
+                type="password"
+                placeholder="******"
+                {...form.register("password")}
+              />
+              {form.formState.errors.password && (
+                <p>{form.formState.errors.password.message}</p>
+              )}
+            </div>
+          </>
+        )}
         {error || urlError ? (
           <p>
             <BsExclamationTriangle /> {error || urlError}
@@ -94,7 +130,7 @@ export const LoginForm = () => {
         </button>
 
         <button disabled={isPending} type="submit">
-          Login
+          {showTwoFactorAuth ? "Confirm" : "Login"}
         </button>
       </form>
 
