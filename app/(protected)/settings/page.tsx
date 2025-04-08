@@ -1,6 +1,5 @@
 "use client";
 
-import { logout } from "@/actions/logout";
 import { settings } from "@/actions/settings";
 import { useSession } from "next-auth/react";
 import { useTransition } from "react";
@@ -12,15 +11,11 @@ const SettingsPage = () => {
   const onClick = () => {
     startTransition(() => {
       settings({
-        name: "R. Aravinth Krishna",
+        name: "Infamous Blue Wire",
       }).then(() => {
         update();
       });
     });
-  };
-
-  const handleClick = () => {
-    logout();
   };
 
   return (
@@ -29,7 +24,6 @@ const SettingsPage = () => {
       <button onClick={onClick} disabled={isPending}>
         Update Name
       </button>
-      <button onClick={handleClick}>Sign Out</button>
     </div>
   );
 };
