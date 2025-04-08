@@ -7,6 +7,7 @@ import authConfig from "@/auth.config";
 import { getUserById } from "./data/user";
 import { Role } from "@prisma/client";
 import { getTwoFactorAuthConfirmationByUserId } from "@/data/two-factor-auth-confirmation";
+import { getAccountByUserId } from "@/data/account";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
@@ -66,10 +67,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       if (session.user) {
         session.user.name = token.name as string;
-      }
 
-      if (session.user) {
         session.user.email = token.email as string;
+
+        session.user.isOAuth = token.isOAuth as boolean;
       }
 
       return session;
@@ -85,8 +86,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return token;
       }
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
       token.name = existingUser.name;
       token.email = existingUser.email;
+      token.isOAuth = !!existingAccount;
       token.role = existingUser.role;
       token.twoFactorAuthEnabled = existingUser.twoFactorAuthEnabled;
 
