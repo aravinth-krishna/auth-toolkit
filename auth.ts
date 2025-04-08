@@ -59,6 +59,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.role = token.role as Role;
       }
 
+      if (session.user) {
+        session.user.twoFactorAuthEnabled =
+          token.twoFactorAuthEnabled as boolean;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -73,6 +78,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
 
       token.role = existingUser.role;
+      token.twoFactorAuthEnabled = existingUser.twoFactorAuthEnabled;
 
       return token;
     },
