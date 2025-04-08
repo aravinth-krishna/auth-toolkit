@@ -1,10 +1,23 @@
 "use client";
 
 import { logout } from "@/actions/logout";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { settings } from "@/actions/settings";
+import { useSession } from "next-auth/react";
+import { useTransition } from "react";
 
 const SettingsPage = () => {
-  const user = useCurrentUser();
+  const { update } = useSession();
+  const [isPending, startTransition] = useTransition();
+
+  const onClick = () => {
+    startTransition(() => {
+      settings({
+        name: "R. Aravinth Krishna",
+      }).then(() => {
+        update();
+      });
+    });
+  };
 
   const handleClick = () => {
     logout();
@@ -12,7 +25,10 @@ const SettingsPage = () => {
 
   return (
     <div>
-      {JSON.stringify(user)}
+      <h2>Settings</h2>
+      <button onClick={onClick} disabled={isPending}>
+        Update Name
+      </button>
       <button onClick={handleClick}>Sign Out</button>
     </div>
   );
