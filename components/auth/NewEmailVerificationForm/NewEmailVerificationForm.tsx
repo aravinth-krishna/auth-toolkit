@@ -1,11 +1,13 @@
 "use client";
 import { BeatLoader } from "react-spinners";
 
-import Link from "next/link";
+import styles from "./NewEmailVerificationForm.module.css";
+
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { newEmailVerification } from "@/actions/new-email-verification";
 import { BsExclamationTriangle, BsCheckCircle } from "react-icons/bs";
+import { BackToLoginButton } from "@/components/auth/BackToLoginButton/BackToLoginButton";
 
 export const NewEmailVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
@@ -34,26 +36,30 @@ export const NewEmailVerificationForm = () => {
   }, [handleSubmit]);
 
   return (
-    <div>
-      <h2>Confirming your Email</h2>
-      {!error && !success && <BeatLoader />}
+    <div className={styles.newEmailVerificationForm}>
+      <h1>Confirming your Email</h1>
+
+      {!error && !success && (
+        <div className={styles.loader}>
+          <BeatLoader size={16} />
+        </div>
+      )}
       {error ? (
-        <p>
-          <BsExclamationTriangle /> {error}
-        </p>
+        <span className={styles.error}>
+          <BsExclamationTriangle size={16} /> {error}
+        </span>
       ) : (
         ""
       )}
       {success ? (
-        <p>
-          <BsCheckCircle /> {success}
-        </p>
+        <span className={styles.success}>
+          <BsCheckCircle size={16} /> {success}
+        </span>
       ) : (
         ""
       )}
-      <button>
-        <Link href={"/login"}>Back to Login</Link>
-      </button>
+
+      <BackToLoginButton />
     </div>
   );
 };

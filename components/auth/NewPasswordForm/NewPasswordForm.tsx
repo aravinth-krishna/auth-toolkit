@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import styles from "./NewPasswordForm.module.css";
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { BsExclamationTriangle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "@/actions/new-password";
+import { BackToLoginButton } from "@/components/auth/BackToLoginButton/BackToLoginButton";
 
 export const NewPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -39,12 +40,13 @@ export const NewPasswordForm = () => {
   };
 
   return (
-    <div>
-      <h2>Enter a new password</h2>
+    <div className={styles.newPasswordForm}>
+      <h1>Enter a new password</h1>
+      <p>Set a new strong password</p>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <div>
-          <label htmlFor="password">Enter new password</label>
+          <label htmlFor="password">New password</label>
           <input
             id="password"
             disabled={isPending}
@@ -53,33 +55,35 @@ export const NewPasswordForm = () => {
             {...form.register("password")}
           />
           {form.formState.errors.password && (
-            <p>{form.formState.errors.password.message}</p>
+            <span>{form.formState.errors.password.message}</span>
           )}
         </div>
 
         {error ? (
-          <p>
-            <BsExclamationTriangle /> {error}
-          </p>
+          <span className={styles.error}>
+            <BsExclamationTriangle size={16} /> {error}
+          </span>
         ) : (
           ""
         )}
         {success ? (
-          <p>
-            <BsCheckCircle /> {success}
-          </p>
+          <span className={styles.success}>
+            <BsCheckCircle size={16} /> {success}
+          </span>
         ) : (
           ""
         )}
 
-        <button disabled={isPending} type="submit">
+        <button
+          className={styles.changePasswordButton}
+          disabled={isPending}
+          type="submit"
+        >
           Change password
         </button>
       </form>
 
-      <button>
-        <Link href={"/login"}>Back to Login</Link>
-      </button>
+      <BackToLoginButton />
     </div>
   );
 };

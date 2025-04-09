@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import styles from "./ResetPasswordForm.module.css";
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import { ResetPasswordSchema } from "@/schemas";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
 import { resetPassword } from "@/actions/reset-password";
+import { BackToLoginButton } from "@/components/auth/BackToLoginButton/BackToLoginButton";
 
 export const ResetPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -35,8 +36,9 @@ export const ResetPasswordForm = () => {
   };
 
   return (
-    <div>
-      <h2>Forgot your password?</h2>
+    <div className={styles.resetPasswordForm}>
+      <h1>Forgot your password?</h1>
+      <p>Verify your email and reset password</p>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <div>
@@ -49,33 +51,35 @@ export const ResetPasswordForm = () => {
             {...form.register("email")}
           />
           {form.formState.errors.email && (
-            <p>{form.formState.errors.email.message}</p>
+            <span>{form.formState.errors.email.message}</span>
           )}
         </div>
 
         {error ? (
-          <p>
-            <BsExclamationTriangle /> {error}
-          </p>
+          <span className={styles.error}>
+            <BsExclamationTriangle size={16} /> {error}
+          </span>
         ) : (
           ""
         )}
         {success ? (
-          <p>
-            <BsCheckCircle /> {success}
-          </p>
+          <span className={styles.success}>
+            <BsCheckCircle size={16} /> {success}
+          </span>
         ) : (
           ""
         )}
 
-        <button disabled={isPending} type="submit">
+        <button
+          className={styles.resetButton}
+          disabled={isPending}
+          type="submit"
+        >
           Send reset email
         </button>
       </form>
 
-      <button>
-        <Link href={"/login"}>Back to Login</Link>
-      </button>
+      <BackToLoginButton />
     </div>
   );
 };

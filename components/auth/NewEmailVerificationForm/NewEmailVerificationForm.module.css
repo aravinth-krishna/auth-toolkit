@@ -1,0 +1,40 @@
+.newEmailVerificationForm {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 2rem;
+  font-size: 0.875rem;
+}
+
+.newEmailVerificationForm h1 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error {
+  color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background-color: rgb(255, 192, 192);
+}
+
+.success {
+  color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background-color: rgb(192, 255, 192);
+}

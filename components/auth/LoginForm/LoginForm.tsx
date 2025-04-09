@@ -32,6 +32,7 @@ export const LoginForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      two_factor_code: "",
     },
   });
 
@@ -64,8 +65,21 @@ export const LoginForm = () => {
 
   return (
     <div className={styles.loginForm}>
-      <h1>Sign In</h1>
-      <p>Enter your email below to login to your account</p>
+      {!showTwoFactorAuth && (
+        <>
+          <h1>Sign In</h1>
+          <p>Enter your email below to login to your account</p>
+        </>
+      )}
+
+      {showTwoFactorAuth && (
+        <>
+          <h1>Two-Factor Authentication</h1>
+          <p>
+            Enter your two factor authentication code received in your email
+          </p>
+        </>
+      )}
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         {showTwoFactorAuth && (
@@ -116,23 +130,25 @@ export const LoginForm = () => {
           </>
         )}
         {error || urlError ? (
-          <p>
-            <BsExclamationTriangle /> {error || urlError}
-          </p>
+          <span className={styles.error}>
+            <BsExclamationTriangle size={16} /> {error || urlError}
+          </span>
         ) : (
           ""
         )}
         {success ? (
-          <p>
-            <BsCheckCircle /> {success}
-          </p>
+          <span className={styles.success}>
+            <BsCheckCircle size={16} /> {success}
+          </span>
         ) : (
           ""
         )}
 
-        <Link href={"/reset-password"} className={styles.forgotPasswordLink}>
-          Forgot password?
-        </Link>
+        {!showTwoFactorAuth && (
+          <Link href={"/reset-password"} className={styles.forgotPasswordLink}>
+            Forgot password?
+          </Link>
+        )}
 
         <button
           className={styles.loginButton}

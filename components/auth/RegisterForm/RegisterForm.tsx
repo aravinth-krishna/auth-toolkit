@@ -109,16 +109,16 @@ export const RegisterForm = () => {
         </div>
 
         {error ? (
-          <p>
-            <BsExclamationTriangle /> {error}
-          </p>
+          <span className={styles.error}>
+            <BsExclamationTriangle size={16} /> {error}
+          </span>
         ) : (
           ""
         )}
         {success ? (
-          <p>
-            <BsCheckCircle /> {success}
-          </p>
+          <span className={styles.success}>
+            <BsCheckCircle size={16} /> {success}
+          </span>
         ) : (
           ""
         )}

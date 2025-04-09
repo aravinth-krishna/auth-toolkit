@@ -1,10 +1,12 @@
-import Link from "next/link";
+import styles from "./ErrorCard.module.css";
+import { BackToLoginButton } from "@/components/auth/BackToLoginButton/BackToLoginButton";
 
 export const ErrorCard = () => {
   return (
-    <div>
-      <h2>Something went wrong</h2>
-      <Link href="/login">Back to Login</Link>
+    <div className={styles.errorCard}>
+      <h1>Something went wrong</h1>
+      <p>Please try again or contact our support team</p>
+      <BackToLoginButton />
     </div>
   );
 };

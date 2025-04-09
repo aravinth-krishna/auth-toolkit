@@ -19,7 +19,7 @@
   margin-bottom: 1rem;
 }
 
-.loginForm form span {
+.loginForm form div > span {
   margin-top: 0.15rem;
   color: red;
 }
@@ -57,6 +57,7 @@
   color: white;
   padding: 0.35rem 0.65rem;
   cursor: pointer;
+  border: none;
 }
 
 .loginButton:hover {
@@ -95,4 +96,24 @@
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
+}
+
+.error {
+  color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background-color: rgb(255, 192, 192);
+}
+
+.success {
+  color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background-color: rgb(192, 255, 192);
 }
