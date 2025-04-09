@@ -20,7 +20,7 @@ const SettingsPage = () => {
   const { update } = useSession();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof SettingsSchema>>({
+  const form = useForm({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
       name: user?.name || undefined,

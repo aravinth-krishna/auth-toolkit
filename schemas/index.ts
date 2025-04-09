@@ -35,14 +35,22 @@ export const NewPasswordSchema = z.object({
   }),
 });
 
+const optionalStringMin6 = z.preprocess(
+  (val) => {
+    if (typeof val === "string" && val.trim() === "") return undefined;
+    return val;
+  },
+  z.string().min(6, { message: "Minimum 6 characters required" }).optional()
+);
+
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
     isTwoFactorAuthEnabled: z.optional(z.boolean()),
     role: z.enum([Role.ADMIN, Role.USER]),
     email: z.optional(z.string().email()),
-    password: z.optional(z.string().min(6)),
-    newPassword: z.optional(z.string().min(6)),
+    password: optionalStringMin6,
+    newPassword: optionalStringMin6,
   })
   .refine(
     (data) => {
