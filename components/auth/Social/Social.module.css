@@ -1,0 +1,23 @@
+.socialLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.socialLinks button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #79717e;
+  background-color: white;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.socialLinks button:hover {
+  background-color: #f2f2f2;
+}

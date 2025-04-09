@@ -11,17 +11,23 @@ export const LoginSchema = z.object({
   two_factor_code: z.optional(z.string()),
 });
 
-export const RegisterSchema = z.object({
-  name: z.string().min(1, {
-    message: "Name is required",
-  }),
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
-  }),
-});
+export const RegisterSchema = z
+  .object({
+    name: z.string().min(1, {
+      message: "Name is required",
+    }),
+    email: z.string().email({
+      message: "Email is required",
+    }),
+    password: z.string().min(6, {
+      message: "Minimum 6 characters required",
+    }),
+    confirmPassword: z.string().min(6, { message: "Confirm your password" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export const ResetPasswordSchema = z.object({
   email: z.string().email({

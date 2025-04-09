@@ -1,23 +1,18 @@
 "use client";
 
+import styles from "./LoginButton.module.css";
 import { useRouter } from "next/navigation";
 
-interface LoginButtonProps {
-  children: React.ReactNode;
-  mode?: "modal" | "redirect";
-  asChild?: boolean;
-}
-
-export const LoginButton = ({ children, mode }: LoginButtonProps) => {
+export const LoginButton = () => {
   const router = useRouter();
 
   const handleClick = () => {
     router.push("/login");
   };
 
-  if (mode == "modal") {
-    return <p>TODO</p>;
-  }
-
-  return <span onClick={handleClick}>{children}</span>;
+  return (
+    <button className={styles.loginButton} onClick={handleClick}>
+      Sign In
+    </button>
+  );
 };

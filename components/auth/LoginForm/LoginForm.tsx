@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./LoginForm.module.css";
 import Link from "next/link";
 import { Social } from "@/components/auth/Social/Social";
 import * as z from "zod";
@@ -62,8 +63,9 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
-      <h2>Welcome Back!</h2>
+    <div className={styles.loginForm}>
+      <h1>Sign In</h1>
+      <p>Enter your email below to login to your account</p>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         {showTwoFactorAuth && (
@@ -77,7 +79,7 @@ export const LoginForm = () => {
               {...form.register("two_factor_code")}
             />
             {form.formState.errors.two_factor_code && (
-              <p>{form.formState.errors.two_factor_code.message}</p>
+              <span>{form.formState.errors.two_factor_code.message}</span>
             )}
           </div>
         )}
@@ -94,7 +96,7 @@ export const LoginForm = () => {
                 {...form.register("email")}
               />
               {form.formState.errors.email && (
-                <p>{form.formState.errors.email.message}</p>
+                <span>{form.formState.errors.email.message}</span>
               )}
             </div>
 
@@ -108,7 +110,7 @@ export const LoginForm = () => {
                 {...form.register("password")}
               />
               {form.formState.errors.password && (
-                <p>{form.formState.errors.password.message}</p>
+                <span>{form.formState.errors.password.message}</span>
               )}
             </div>
           </>
@@ -127,19 +129,31 @@ export const LoginForm = () => {
         ) : (
           ""
         )}
-        <button>
-          <Link href={"/reset-password"}>Forgot password?</Link>
-        </button>
 
-        <button disabled={isPending} type="submit">
+        <Link href={"/reset-password"} className={styles.forgotPasswordLink}>
+          Forgot password?
+        </Link>
+
+        <button
+          className={styles.loginButton}
+          disabled={isPending}
+          type="submit"
+        >
           {showTwoFactorAuth ? "Confirm" : "Login"}
         </button>
       </form>
 
+      <div className={styles.separator}>
+        <span>or</span>
+      </div>
+
       <Social />
-      <span>
-        Don&apos;t have an Account? <Link href={"/register"}>Sign Up</Link>
-      </span>
+
+      <div className={styles.toRegisterLink}>
+        <span>
+          Don&apos;t have an Account? <Link href={"/register"}>Sign Up</Link>
+        </span>
+      </div>
     </div>
   );
 };

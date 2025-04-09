@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./Social.module.css";
 import { signIn } from "next-auth/react";
 
 import { FcGoogle } from "react-icons/fc";
@@ -18,12 +19,14 @@ export const Social = () => {
   };
 
   return (
-    <div>
+    <div className={styles.socialLinks}>
       <button onClick={() => handleClick("google")}>
-        <FcGoogle />
+        <FcGoogle size={16} />
+        <span>Sign In with Google</span>
       </button>
       <button onClick={() => handleClick("github")}>
-        <FaGithub />
+        <FaGithub size={16} />
+        <span>Sign In with GitHub</span>
       </button>
     </div>
   );

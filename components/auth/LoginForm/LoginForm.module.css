@@ -1,0 +1,98 @@
+.loginForm {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 2rem;
+  font-size: 0.875rem;
+}
+
+.loginForm h1 {
+  font-size: 1.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.loginForm p {
+  font-size: 0.875rem;
+  color: #79717e;
+  margin-bottom: 1rem;
+}
+
+.loginForm form span {
+  margin-top: 0.15rem;
+  color: red;
+}
+
+.loginForm form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.loginForm form > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm form > div > label {
+  margin-bottom: 0.25rem;
+}
+
+.loginForm form > div > input {
+  border: 1px solid #79717e;
+  padding: 0.35rem 0.65rem;
+}
+
+.forgotPasswordLink {
+  color: black;
+  cursor: pointer;
+}
+
+.loginButton {
+  background-color: black;
+  color: white;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: rgb(56, 56, 56);
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #79717e;
+}
+
+.separator::before {
+  margin-right: 0.5em;
+}
+
+.separator::after {
+  margin-left: 0.5em;
+}
+
+.separator span {
+  color: #79717e;
+  font-size: 0.9rem;
+}
+
+.toRegisterLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}

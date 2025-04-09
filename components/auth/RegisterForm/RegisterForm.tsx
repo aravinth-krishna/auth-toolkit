@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./RegisterForm.module.css";
 import Link from "next/link";
 import { Social } from "@/components/auth/Social/Social";
 import * as z from "zod";
@@ -16,21 +17,29 @@ export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
+  type FormValues = z.infer<typeof RegisterSchema>;
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  const handleSubmit = (values: FormValues) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      register(values).then((data) => {
+      register({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      }).then((data) => {
         setError(data.error);
         setSuccess(data.success);
       });
@@ -38,8 +47,9 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div>
-      <h2>Create your Account</h2>
+    <div className={styles.registerForm}>
+      <h1>Create your Account</h1>
+      <p>Enter your information below to create an account</p>
 
       <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
         <div>
@@ -52,7 +62,7 @@ export const RegisterForm = () => {
             {...form.register("name")}
           />
           {form.formState.errors.name && (
-            <p>{form.formState.errors.name.message}</p>
+            <span>{form.formState.errors.name.message}</span>
           )}
         </div>
 
@@ -66,7 +76,7 @@ export const RegisterForm = () => {
             {...form.register("email")}
           />
           {form.formState.errors.email && (
-            <p>{form.formState.errors.email.message}</p>
+            <span>{form.formState.errors.email.message}</span>
           )}
         </div>
 
@@ -80,7 +90,21 @@ export const RegisterForm = () => {
             {...form.register("password")}
           />
           {form.formState.errors.password && (
-            <p>{form.formState.errors.password.message}</p>
+            <span>{form.formState.errors.password.message}</span>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            disabled={isPending}
+            type="password"
+            placeholder="******"
+            {...form.register("confirmPassword")}
+          />
+          {form.formState.errors.confirmPassword && (
+            <span>{form.formState.errors.confirmPassword.message}</span>
           )}
         </div>
 
@@ -98,15 +122,26 @@ export const RegisterForm = () => {
         ) : (
           ""
         )}
-        <button disabled={isPending} type="submit">
+        <button
+          className={styles.registerButton}
+          disabled={isPending}
+          type="submit"
+        >
           Register
         </button>
       </form>
 
+      <div className={styles.separator}>
+        <span>or</span>
+      </div>
+
       <Social />
-      <span>
-        Already have an Account? <Link href={"/login"}>Sign In</Link>
-      </span>
+
+      <div className={styles.toLoginLink}>
+        <span>
+          Already have an Account? <Link href={"/login"}>Sign In</Link>
+        </span>
+      </div>
     </div>
   );
 };
