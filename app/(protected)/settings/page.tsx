@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { BsCheckCircle, BsExclamationTriangle } from "react-icons/bs";
+import { Role } from "@prisma/client";
 
 const SettingsPage = () => {
   const user = useCurrentUser();
@@ -23,6 +24,11 @@ const SettingsPage = () => {
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
       name: user?.name || undefined,
+      email: user?.email || undefined,
+      password: undefined,
+      newPassword: undefined,
+      role: user?.role || undefined,
+      isTwoFactorAuthEnabled: user?.twoFactorAuthEnabled,
     },
   });
 
@@ -62,6 +68,83 @@ const SettingsPage = () => {
             <p>{form.formState.errors.name.message}</p>
           )}
         </div>
+        {user?.isOAuth === false && (
+          <>
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                disabled={isPending}
+                type="email"
+                placeholder="johndoe@example.com"
+                {...form.register("email")}
+              />
+              {form.formState.errors.email && (
+                <p>{form.formState.errors.email.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                disabled={isPending}
+                type="password"
+                placeholder="******"
+                {...form.register("password")}
+              />
+              {form.formState.errors.password && (
+                <p>{form.formState.errors.password.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="newPassword">New password</label>
+              <input
+                id="newPassword"
+                disabled={isPending}
+                type="password"
+                placeholder="******"
+                {...form.register("newPassword")}
+              />
+              {form.formState.errors.newPassword && (
+                <p>{form.formState.errors.newPassword.message}</p>
+              )}
+            </div>
+          </>
+        )}
+        <div>
+          <label htmlFor="role">Role</label>
+          <select
+            id="role"
+            disabled={isPending}
+            defaultValue={user?.role || Role.USER}
+            {...form.register("role")}
+          >
+            <option value={Role.USER}>USER</option>
+            <option value={Role.ADMIN}>ADMIN</option>
+          </select>
+
+          {form.formState.errors.role && (
+            <p>{form.formState.errors.role.message}</p>
+          )}
+        </div>
+        {user?.isOAuth === false && (
+          <div>
+            <label htmlFor="isTwoFactorAuthEnabled">
+              <input
+                id="isTwoFactorAuthEnabled"
+                disabled={isPending}
+                defaultChecked={user?.twoFactorAuthEnabled}
+                type="checkbox"
+                {...form.register("isTwoFactorAuthEnabled")}
+              />
+              Two Factor Authentication
+            </label>
+
+            {form.formState.errors.isTwoFactorAuthEnabled && (
+              <p>{form.formState.errors.isTwoFactorAuthEnabled.message}</p>
+            )}
+          </div>
+        )}
         {error ? (
           <p>
             <BsExclamationTriangle /> {error}
