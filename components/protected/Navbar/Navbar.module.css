@@ -1,0 +1,36 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  font-size: 0.875rem;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.navLinks button {
+  color: black;
+  background-color: white;
+  padding: 0.3rem 0.6rem;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.current {
+  background-color: black;
+  color: white;
+}
+
+.default {
+  background-color: white;
+  color: black;
+}

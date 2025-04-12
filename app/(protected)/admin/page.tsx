@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./page.module.css";
 import { admin } from "@/actions/admin";
 import { RoleGate } from "@/components/auth/RoleGate/RoleGate";
 import { Role } from "@prisma/client";
@@ -28,7 +29,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.page}>
       <RoleGate allowedRole={Role.ADMIN}>
         <span>You are allowed to see this content</span>
       </RoleGate>

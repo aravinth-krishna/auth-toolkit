@@ -163,7 +163,7 @@ export const LoginForm = () => {
         <span>or</span>
       </div>
 
-      <Social />
+      <Social mode="login" />
 
       <div className={styles.toRegisterLink}>
         <span>

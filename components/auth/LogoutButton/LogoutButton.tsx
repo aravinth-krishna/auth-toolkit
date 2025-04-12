@@ -1,21 +1,18 @@
 "use client";
 
+import styles from "./LogoutButton.module.css";
 import { logout } from "@/actions/logout";
 import { IoMdExit } from "react-icons/io";
 
-interface LogoutButtonProps {
-  children?: React.ReactNode;
-}
-
-export const LogoutButton = ({ children }: LogoutButtonProps) => {
+export const LogoutButton = () => {
   const handleClick = () => {
     logout();
   };
 
   return (
-    <button onClick={handleClick}>
+    <button className={styles.logoutButton} onClick={handleClick}>
       <IoMdExit />
-      {children}
+      Sign Out
     </button>
   );
 };

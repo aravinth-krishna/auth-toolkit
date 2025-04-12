@@ -135,7 +135,7 @@ export const RegisterForm = () => {
         <span>or</span>
       </div>
 
-      <Social />
+      <Social mode="register" />
 
       <div className={styles.toLoginLink}>
         <span>

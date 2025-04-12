@@ -8,9 +8,17 @@ import { FaGithub } from "react-icons/fa";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { useSearchParams } from "next/navigation";
 
-export const Social = () => {
+type Mode = "login" | "register";
+
+interface SocialProps {
+  mode: Mode;
+}
+
+export const Social = ({ mode }: SocialProps) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
+
+  const verb = mode === "login" ? "Sign In" : "Sign Up";
 
   const handleClick = (provider: "google" | "github") => {
     signIn(provider, {
@@ -22,11 +30,11 @@ export const Social = () => {
     <div className={styles.socialLinks}>
       <button onClick={() => handleClick("google")}>
         <FcGoogle size={16} />
-        <span>Sign In with Google</span>
+        <span>{verb} with Google</span>
       </button>
       <button onClick={() => handleClick("github")}>
         <FaGithub size={16} />
-        <span>Sign In with GitHub</span>
+        <span>{verb} with GitHub</span>
       </button>
     </div>
   );
